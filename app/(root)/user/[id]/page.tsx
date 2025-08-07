@@ -96,7 +96,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
           <p className="text-30-extrabold mt-7 text-center">
             @{user?.username}
           </p>
-          <p className="mt-1 text-center text-14-normal">{user?.bio}</p>
+          <p className="mt-1 text-center text-14-white">{user?.bio}</p>
         </div>
 
         <div className="flex-1 flex flex-col gap-5 lg:-mt-5">
