@@ -10,16 +10,57 @@ const nextConfig: NextConfig = {
         hostname: "*",
       },
     ],
+    // Performance optimization
+    formats: ['image/webp', 'image/avif'],
+    minimumCacheTTL: 60,
   },
 
+  // Performance optimizations
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production",
+  },
+  
   experimental: {
     ppr: "incremental",
     after: true,
+    // Disable for dev performance
+    optimizePackageImports: ["lucide-react", "@radix-ui/react-icons"],
+    turbo: {
+      rules: {
+        '*.svg': {
+          loaders: ['@svgr/webpack'],
+          as: '*.js',
+        },
+      },
+    },
   },
+  
+  // Optimize dev indicators
   devIndicators: {
-    appIsrStatus: true,
+    appIsrStatus: false, // Disable for better performance
     buildActivity: true,
     buildActivityPosition: "bottom-right",
+  },
+  
+  // Webpack optimizations
+  webpack: (config, { dev, isServer }) => {
+    if (dev && !isServer) {
+      // Optimize for development
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: {
+          chunks: 'all',
+          cacheGroups: {
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name: 'vendors',
+              chunks: 'all',
+            },
+          },
+        },
+      };
+    }
+    return config;
   },
 };
 

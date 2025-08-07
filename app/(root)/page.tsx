@@ -23,12 +23,14 @@ export default async function Home({
 
   return (
     <>
-      <section className="pink_container">
+      <section className="hero_container">
         <h1 className="heading">
           Pitch your startup, <br /> connect with Entrepreneurs
         </h1>
 
-        <p className="sub-heading !max-w-3xl">
+        <p className="sub-heading !max-w-lg">
+          {" "}
+          {/* Reduced from max-w-2xl to max-w-lg */}
           Submit Ideas, Vote on Pitches, Get Noticed in Virtual Competitions
         </p>
 
@@ -36,17 +38,19 @@ export default async function Home({
       </section>
 
       <section className="section_container">
-        <p className="text-30-semibold">
-          {query ? `Search Results for ${query}` : "All Startups"}
+        <p className="text-18-semibold">
+          {query ? `Search Results for "${query}"` : "All Startups"}
         </p>
 
-        <ul className="mt-7 card_grid">
+        <ul className="mt-4 card_grid">
+          {" "}
+          {/* Reduced margin from mt-6 to mt-4 */}
           {post?.length > 0 ? (
             post.map((post: StartupTypeCard) => (
               <StartupCard key={post?._id} post={post} />
             ))
           ) : (
-            <p className="no-results">No Startups Found</p>
+            <p className="no-result">No Startups Found</p>
           )}
         </ul>
       </section>

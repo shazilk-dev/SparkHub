@@ -1,26 +1,39 @@
 import Link from "next/link";
-// import Image from "next/image";
 import { auth, signOut, signIn } from "@/auth";
+import { ThemeToggle } from "./ThemeToggle";
 
 const Navbar = async () => {
   const session = await auth();
 
   return (
-    <header className="px-5 py-3 bg-white shadow-sm font-work-sans">
+    <header className="navbar">
       <nav className="flex justify-between items-center">
-        <Link href="/" className="h-7 pt-[-8px] ">
+        <Link href="/" className="flex items-center">
           <img
             src="/logo5.png"
-            alt="logo"
-            className="object-cover overflow-hidden h-20"
+            alt="SparkHub"
+            className="h-8 w-auto object-contain" // Reduced from h-12 to h-8
           />
         </Link>
 
-        <div className="flex items-center gap-5 text-black">
+        <div className="flex items-center gap-2 text-white">
+          {" "}
+          {/* Reduced gap from 4 to 2 */}
+          <ThemeToggle />
           {session && session?.user ? (
             <>
-              <Link href="/startup/create">
+              <Link
+                href="/startup/create"
+                className="px-3 py-1.5 rounded-lg bg-primary/20 border border-primary/30 hover:bg-primary/30 transition-all duration-300 text-xs font-medium" // Reduced padding and text size
+              >
                 <span>Create</span>
+              </Link>
+
+              <Link
+                href={`/user/${session?.id}`}
+                className="px-2 py-1 rounded-full bg-glass-light border border-glass-border hover:bg-glass-medium transition-all duration-300 text-xs" // Reduced padding and text size
+              >
+                <span>{session?.user?.name}</span>
               </Link>
 
               <form
@@ -29,12 +42,13 @@ const Navbar = async () => {
                   await signOut({ redirectTo: "/" });
                 }}
               >
-                <button type="submit">Logout</button>
+                <button
+                  type="submit"
+                  className="px-2 py-1 rounded-lg text-dark-400 hover:text-white transition-colors text-xs" // Reduced padding and text size
+                >
+                  Logout
+                </button>
               </form>
-
-              <Link href={`/user/${session?.id}`}>
-                <span>{session?.user?.name}</span>
-              </Link>
             </>
           ) : (
             <form
@@ -43,7 +57,11 @@ const Navbar = async () => {
                 await signIn("github");
               }}
             >
-              <button type="submit">Login</button>
+              <button type="submit" className="login text-xs">
+                {" "}
+                {/* Reduced text size */}
+                Login with GitHub
+              </button>
             </form>
           )}
         </div>

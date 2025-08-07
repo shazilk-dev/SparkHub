@@ -3,13 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
+    "dev:normal": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "predev": "npm run typegen",
     "prebuild": "npm run typegen",
-    "typegen": "sanity schema extract --path=./sanity/extract.json && sanity typegen generate"
+    "typegen": "sanity schema extract --path=./sanity/extract.json && sanity typegen generate",
+    "dev:fast": "next dev --turbo --port 3000"
   },
   "packageManager": "npm@10.5.2",
   "overrides": {
@@ -34,6 +36,7 @@
     "next": "15.0.0-canary.183",
     "next-auth": "^5.0.0-beta.22",
     "next-sanity": "^9.5.1-canary.23",
+    "next-themes": "^0.4.6",
     "react": "19.0.0-rc-2d16326d-20240930",
     "react-dom": "19.0.0-rc-2d16326d-20240930",
     "sanity": "^3.60.0",
