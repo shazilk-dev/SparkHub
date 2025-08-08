@@ -8,7 +8,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 const workSans = localFont({
   src: [
     {
-      path: "./fonts/workSans-Black.ttf",
+      path: "./fonts/WorkSans-Black.ttf",
       weight: "900",
       style: "normal",
     },
