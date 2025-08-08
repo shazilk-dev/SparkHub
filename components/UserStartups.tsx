@@ -4,7 +4,9 @@ import { STARTUP_BY_AUTHOR_QUERY } from "@/sanity/lib/queries";
 import StartupCard, { StartupTypeCard } from "@/components/StartupCard";
 
 const UserStartups = async ({ id }: { id: string }) => {
-  const startups = await client.fetch(STARTUP_BY_AUTHOR_QUERY, { id });
+  const startups = await client
+    .withConfig({ useCdn: false })
+    .fetch(STARTUP_BY_AUTHOR_QUERY, { id });
 
   return (
     <>

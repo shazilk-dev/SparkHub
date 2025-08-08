@@ -24,7 +24,19 @@ export default defineConfig({
     structureTool({ structure }),
     // Vision is for querying with GROQ from inside the Studio
     // https://www.sanity.io/docs/the-vision-plugin
-    visionTool({ defaultApiVersion: apiVersion }),
+    // Conditionally load vision plugin only in development
+    ...(process.env.NODE_ENV === "development"
+      ? [visionTool({ defaultApiVersion: apiVersion })]
+      : []),
     markdownSchema(),
   ],
+  // Performance optimizations
+  studioHost: "localhost",
+  tools: (prev) => {
+    // Reduce tools in development for faster loading
+    if (process.env.NODE_ENV === "development") {
+      return prev.filter((tool) => tool.name !== "vision");
+    }
+    return prev;
+  },
 });

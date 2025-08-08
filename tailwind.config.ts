@@ -82,8 +82,11 @@ const config: Config = {
       boxShadow: {
         glass: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
         "glass-inset": "inset 0 2px 4px 0 rgba(255, 255, 255, 0.1)",
-        glow: "0 0 20px rgba(96, 165, 250, 0.3)",
-        "glow-lg": "0 0 40px rgba(96, 165, 250, 0.4)",
+        glow: "0 0 15px rgba(96, 165, 250, 0.2)", // Reduced intensity
+        "glow-lg": "0 0 25px rgba(96, 165, 250, 0.25)", // Reduced intensity
+        "glow-subtle": "0 0 10px rgba(96, 165, 250, 0.15)", // New subtle glow
+        clean: "0 4px 16px rgba(0, 0, 0, 0.1)", // Clean shadow without glow
+        "clean-lg": "0 8px 32px rgba(0, 0, 0, 0.15)", // Larger clean shadow
         100: "2px 2px 0px 0px rgb(0, 0, 0)",
         200: "2px 2px 0px 2px rgb(0, 0, 0)",
         300: "2px 2px 0px 2px rgb(238, 43, 105)",

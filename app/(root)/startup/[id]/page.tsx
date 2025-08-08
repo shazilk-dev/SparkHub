@@ -7,22 +7,21 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import React, { Suspense } from "react";
 import View from "@/components/View";
-
-import markdownit from "markdown-it";
+import { renderMarkdown } from "@/lib/markdown";
 import { Skeleton } from "@/components/ui/skeleton";
-
-const md = markdownit();
 
 export const experimental_ppr = true;
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const id = (await params).id;
 
-  const post = await client.fetch(STARTUP_BY_ID_QUERY, { id });
+  const post = await client
+    .withConfig({ useCdn: false })
+    .fetch(STARTUP_BY_ID_QUERY, { id });
 
   if (!post) return notFound();
 
-  const parsedContent = md.render(post?.pitch || "");
+  const parsedContent = renderMarkdown(post?.pitch || "");
   console.log(formatDate(post?._createdAt));
   return (
     <>
@@ -39,45 +38,42 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
           alt="startup thumbnail"
           width={800}
           height={400}
-          className="w-full h-auto rounded-xl border border-glass-border"
+          className="w-full max-w-4xl mx-auto h-[300px] sm:h-[400px] object-cover rounded-xl shadow-lg startup-card_img"
         />
 
-        <div className="space-y-3 mt-6 max-w-4xl mx-auto">
-          {" "}
-          {/* Reduced spacing and margin */}
-          <div className="flex-between gap-3">
-            {" "}
-            {/* Reduced gap from 4 to 3 */}
+        <div className="space-y-4 mt-8 max-w-4xl mx-auto">
+          <div className="flex-between gap-4">
             <Link
               href={`/user/${post.author?._id}`}
-              className="flex gap-2 items-center mb-2 glass-container p-2 rounded-xl hover:bg-glass-medium transition-all" /* Reduced gap, margin, and padding */
+              className="flex gap-3 items-center mb-2 card-container p-3 rounded-xl hover:shadow-xl transition-all"
             >
               <Image
                 src={post.author.image}
                 alt="avatar"
-                width={40} // Reduced from 48 to 40
-                height={40} // Reduced from 48 to 40
-                className="rounded-full border border-primary/30"
+                width={48}
+                height={48}
+                className="profile_image"
               />
               <div>
-                <p className="text-14-medium text-white font-semibold">
+                <p className="text-sm font-semibold text-18-semibold">
                   {post.author.name}
                 </p>
-                <p className="text-12-medium text-dark-400">
+                <p className="text-xs text-12-medium">
                   @{post.author.username}
                 </p>
               </div>
             </Link>
-            <p className="category-tag">{post.category}</p>
+
+            <span className="category-tag">{post.category}</span>
           </div>
-          <div className="glass-container p-4 rounded-xl">
-            {" "}
-            {/* Reduced padding from p-6 to p-4 */}
-            <h3 className="text-18-bold text-white mb-3">Pitch Details</h3>{" "}
-            {/* Reduced margin from mb-4 to mb-3 */}
+
+          <div className="card-container p-6 rounded-xl">
+            <h3 className="text-18-bold mb-4 border-b pb-2 divider">
+              Pitch Details
+            </h3>
             {parsedContent ? (
               <article
-                className="prose prose-invert max-w-none font-work-sans break-words text-dark-200"
+                className="prose prose-gray dark:prose-invert max-w-none font-work-sans"
                 dangerouslySetInnerHTML={{ __html: parsedContent }}
               />
             ) : (

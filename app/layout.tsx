@@ -58,9 +58,13 @@ const workSans = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "YC Directory ",
-  description: "Pitch, Vote and Grow",
+  title: "SparkHub",
+  description:
+    "A platform to connect and collaborate with like-minded individuals.",
 };
+
+// Ensure fresh data in production
+export const revalidate = 0;
 
 export default function RootLayout({
   children,
@@ -70,7 +74,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={workSans.variable}>
-        <ThemeProvider defaultTheme="glassmorphism" storageKey="sparkhub-theme">
+        <ThemeProvider defaultTheme="dark" storageKey="sparkhub-theme">
           {children}
           <Toaster />
         </ThemeProvider>

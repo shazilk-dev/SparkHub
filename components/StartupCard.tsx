@@ -25,36 +25,26 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
       <div className="flex-between">
         <p className="startup-card_date">{formatDate(_createdAt)}</p>
         <div className="flex gap-1 items-center">
-          {" "}
-          {/* Reduced gap from 1.5 to 1 */}
-          <EyeIcon className="size-3 text-primary" />{" "}
-          {/* Reduced from size-4 to size-3 */}
-          <span className="text-12-medium text-dark-400">{views}</span>
+          <EyeIcon className="size-3 text-primary" />
+          <span className="text-12-medium">{views}</span>
         </div>
       </div>
 
       <div className="flex-between mt-3 gap-2">
-        {" "}
-        {/* Reduced margin and gap */}
         <div className="flex-1">
           <Link href={`/user/${author?._id}`}>
-            <p className="text-12-medium line-clamp-1 text-dark-400">
-              {author?.name}
-            </p>
+            <p className="text-12-medium line-clamp-1">{author?.name}</p>
           </Link>
           <Link href={`/startup/${_id}`}>
-            <h3 className="text-16-semibold line-clamp-1 text-white mt-0.5">
-              {title}
-            </h3>{" "}
-            {/* Reduced margin */}
+            <h3 className="text-16-semibold line-clamp-1 mt-0.5">{title}</h3>
           </Link>
         </div>
         <Link href={`/user/${author?._id}`}>
           <Image
             src={author?.image || "https://placehold.co/32x32"}
             alt={author?.name || "User"}
-            width={28} // Reduced from 32 to 28
-            height={28} // Reduced from 32 to 28
+            width={28}
+            height={28}
             className="rounded-full border border-primary/30"
           />
         </Link>
@@ -72,8 +62,6 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
       </Link>
 
       <div className="flex-between gap-2 mt-3">
-        {" "}
-        {/* Reduced gap and margin */}
         <Link href={`/?query=${category?.toLowerCase()}`}>
           <p className="text-12-medium text-primary hover:text-secondary transition-colors">
             {category}

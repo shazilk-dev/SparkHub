@@ -1,16 +1,32 @@
 "use client";
 
-import Head from "next/head";
+import { useEffect, useState } from "react";
 import * as Sentry from "@sentry/nextjs";
 
 export default function Page() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <h1>Loading Sentry Example...</h1>
+      </div>
+    );
+  }
   return (
     <div>
-      <Head>
-        <title>Sentry Onboarding</title>
-        <meta name="description" content="Test Sentry for your Next.js app!" />
-      </Head>
-
       <main
         style={{
           minHeight: "100vh",
@@ -49,15 +65,22 @@ export default function Page() {
             margin: "18px",
           }}
           onClick={async () => {
-            await Sentry.startSpan({
-              name: 'Example Frontend Span',
-              op: 'test'
-            }, async () => {
-              const res = await fetch("/api/sentry-example-api");
-              if (!res.ok) {
-                throw new Error("Sentry Example Frontend Error");
-              }
-            });
+            try {
+              await Sentry.startSpan(
+                {
+                  name: "Example Frontend Span",
+                  op: "test",
+                },
+                async () => {
+                  const res = await fetch("/api/sentry-example-api");
+                  if (!res.ok) {
+                    throw new Error("Sentry Example Frontend Error");
+                  }
+                }
+              );
+            } catch (error) {
+              console.error("Sentry error:", error);
+            }
           }}
         >
           Throw error!
@@ -65,7 +88,10 @@ export default function Page() {
 
         <p>
           Next, look for the error on the{" "}
-          <a href="https://shazil-khan.sentry.io/issues/?project=4508370658525264">Issues Page</a>.
+          <a href="https://shazil-khan.sentry.io/issues/?project=4508370658525264">
+            Issues Page
+          </a>
+          .
         </p>
         <p style={{ marginTop: "24px" }}>
           For more information, see{" "}
